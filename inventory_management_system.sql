@@ -112,6 +112,8 @@ VALUES
 INSERT INTO Orders (ProductID, Quantity, OrderDate, CustomerID)
 VALUES
   (1, 2, curdate(), 1);
+
+-----------------------------------------------------------------
   
 select * from categories;
 select * from suppliers;
