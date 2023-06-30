@@ -47,7 +47,7 @@ export default async function DisplayProducts() {
                 Category
               </th>
               <th scope="col" className="px-6 py-3">
-                Supplier's Name
+                Supplier&apos;s Name
               </th>
             </tr>
           </thead>

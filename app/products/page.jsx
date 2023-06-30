@@ -69,7 +69,7 @@ export default async function page() {
               Category
             </th>
             <th scope="col" className="px-6 py-3">
-              Supplier's Name
+              Supplier&apos;s Name
             </th>
             <th scope="col" className="px-6 py-3"></th>
           </tr>

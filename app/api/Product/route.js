@@ -20,8 +20,6 @@ export async function GET(request) {
         query: "select * from products where productid = ?",
         values: [id],
       });
-      // console.log(res[0]);
-      // console.log(id)
       return NextResponse.json(res[0]);
     }
   } catch (err) {
@@ -87,7 +85,6 @@ export async function DELETE(request) {
   try {
     const { searchParams } = new URL(request.url);
     const { id } = { id: searchParams.get("productid") };
-    console.log("id: ", id);
     if (!id) return NextResponse.json({ message: "Failed" });
     console.log("first");
     const req = await query({

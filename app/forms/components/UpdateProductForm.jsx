@@ -16,7 +16,6 @@ export default function UpdateProductForm() {
   const handleSearch = async (e) => {
     e.preventDefault();
     let id = searchProduct;
-    console.log("", id);
     try {
       const res = await fetch(
         `http://localhost:3000/api/Product?productid=${id}`,
@@ -36,6 +35,7 @@ export default function UpdateProductForm() {
       setSearchDone(true);
     } catch (error) {
       setSearchDone(false);
+      alert("ID: " + id + " not found!");
       console.log("error: ", error);
     }
   };
@@ -45,29 +45,22 @@ export default function UpdateProductForm() {
     let id = searchProduct;
     console.log("ID:", id);
     try {
-      const res = await fetch(
-        `http://localhost:3000/api/Product`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ProductID: productData.ProductID,
-            ProductName: productData.ProductName,
-            Description: productData.Description,
-            Price: productData.Price,
-            Quantity: productData.Quantity,
-          }),
-        }
-      );
+      const res = await fetch(`http://localhost:3000/api/Product`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ProductID: productData.ProductID,
+          ProductName: productData.ProductName,
+          Description: productData.Description,
+          Price: productData.Price,
+          Quantity: productData.Quantity,
+        }),
+      });
       console.log(res);
       if (!res.ok) throw new Error("Failed to fetch data");
       else alert("Updated successfully!");
-      // const product = await res.json();
-      // setProductData((prev) => product);
-      // console.log(productData);
-      // setSearchDone(true);
     } catch (error) {
       setSearchDone(false);
       console.log("error: ", error);
