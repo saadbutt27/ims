@@ -60,7 +60,7 @@ export default function Home() {
             </span>
           </h2>
           <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Fill up the forms to insert and update products/orders/
+            Fill up the forms to insert and update products/orders
           </p>
         </Link>
       </div>

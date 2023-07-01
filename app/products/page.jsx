@@ -35,9 +35,12 @@ export default async function page() {
           },
         }
       );
-      console.log("response: ", res.ok);
+      if (!res.ok) throw new Error("Failed to fetch data");
+
+      alert("Deleted succesfully!");
     } catch (error) {
-      console.log("Error");
+      console.log("Error i am here");
+      alert("This product can't be deleted!");
     }
   };
 
@@ -49,7 +52,6 @@ export default async function page() {
       <h1 className="w-full text-4xl text-gray-700 font-semibold text-center uppercase bg-gray-50 py-4 select-none">
         Products{" "}
       </h1>
-
       <table className="w-full text-left text-gray-500 dark:text-gray-400">
         <thead className="text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 select-none">
           <tr>

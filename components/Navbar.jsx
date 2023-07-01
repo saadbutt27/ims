@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 bg-white border-gray-200 dark:bg-gray-900">
+    <nav className="sticky top-0 z-50 bg-white border-gray-200 dark:bg-gray-900 shadow-lg">
       <div className="max-w-screen-2xl flex flex-wrap items-center justify-between mx-7 p-4">
         <Link href="/products" className="flex items-center">
           <span className="self-center text-4xl font-semibold whitespace-nowrap dark:text-white">

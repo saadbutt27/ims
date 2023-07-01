@@ -4,13 +4,13 @@ export default function UpdateProductForm() {
   const [searchProduct, setSearchProduct] = useState();
   const [searchDone, setSearchDone] = useState(false);
   const [productData, setProductData] = useState({
-    ProductID: "",
-    ProductName: "",
-    Description: "",
-    Price: "",
-    Quantity: "",
-    CategoryID: "",
-    SupplierID: "",
+    productid: "",
+    productname: "",
+    description: "",
+    price: "",
+    quantity: "",
+    categoryname: "",
+    suppliername: "",
   });
 
   const handleSearch = async (e) => {
@@ -27,9 +27,10 @@ export default function UpdateProductForm() {
           cache: "no-store",
         }
       );
-      console.log(res);
+      console.log(res.ok);
       if (!res.ok) throw new Error("Failed to fetch data");
       const product = await res.json();
+      console.log(product);
       setProductData((prev) => product);
       console.log(productData);
       setSearchDone(true);
@@ -51,11 +52,11 @@ export default function UpdateProductForm() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ProductID: productData.ProductID,
-          ProductName: productData.ProductName,
-          Description: productData.Description,
-          Price: productData.Price,
-          Quantity: productData.Quantity,
+          ProductID: productData.productid,
+          ProductName: productData.productname,
+          Description: productData.description,
+          Price: productData.price,
+          Quantity: productData.quantity,
         }),
       });
       console.log(res);
@@ -68,7 +69,6 @@ export default function UpdateProductForm() {
   };
 
   const handleChange = (e) => {
-    console.log("first");
     const { name, value } = e.target;
     setProductData((prevData) => ({
       ...prevData,
@@ -106,7 +106,7 @@ export default function UpdateProductForm() {
       {searchDone && (
         <div className="py-8 px-0 lg:px-4 mx-auto max-w-2xl lg:py-16">
           <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-            Update Product {productData.ProductID}
+            Update Product {productData.productid}
           </h2>
           <form onSubmit={(e) => handleUpdate(e)}>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -119,12 +119,12 @@ export default function UpdateProductForm() {
                 </label>
                 <input
                   type="text"
-                  name="ProductName"
+                  name="productname"
                   id="name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Product name"
                   required
-                  value={productData.ProductName}
+                  value={productData.productname}
                   onChange={handleChange}
                 />
               </div>
@@ -135,20 +135,16 @@ export default function UpdateProductForm() {
                 >
                   Category
                 </label>
-                <select
-                  id="category"
-                  name="CategoryID"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  // value={productData.category}
-                  // onChange={(e)=>handleChange(e)}
-                >
-                  <option defaultValue={"0"}>Select category</option>
-                  {/* {categories.data.map((category, index) => (
-                <option key={index} value={category.CategoryID}>
-                  {category.CategoryName}
-                </option>
-              ))} */}
-                </select>
+                <input
+                  type="text"
+                  name="categoryname"
+                  id="categoryname"
+                  className="cursor-not-allowed  bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder="2999"
+                  required
+                  value={productData.categoryname}
+                  disabled
+                />
               </div>
               <div className="w-full">
                 <label
@@ -159,12 +155,12 @@ export default function UpdateProductForm() {
                 </label>
                 <input
                   type="number"
-                  name="Price"
+                  name="price"
                   id="price"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="2999"
                   required
-                  value={productData.Price}
+                  value={productData.price}
                   onChange={handleChange}
                 />
               </div>
@@ -175,20 +171,30 @@ export default function UpdateProductForm() {
                 >
                   Supplier Id
                 </label>
-                <select
+                <input
+                  type="text"
+                  name="suppliername"
+                  id="suppliername"
+                  className="cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder="2999"
+                  required
+                  value={productData.suppliername}
+                  disabled
+                />
+                {/* <select
                   id="SupplierId"
                   name="SupplierId"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  // value={productData.supplierId}
-                  // onChange={(e)=>handleChange(e)}
+                  value={productData.SupplierID}
+                  onChange={(e)=>handleChange(e)}
                 >
                   <option defaultValue={"0"}>Select Id</option>
-                  {/* {suppliers.data.map((supplier, index) => (
+                  {suppliers.data.map((supplier, index) => (
                 <option key={index} value={supplier.SupplierID}>
                   {supplier.SupplierName}
                 </option>
-              ))} */}
-                </select>
+              ))}
+                </select> */}
               </div>
               <div>
                 <label
@@ -199,12 +205,12 @@ export default function UpdateProductForm() {
                 </label>
                 <input
                   type="number"
-                  name="Quantity"
+                  name="quantity"
                   id="quantity"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="20"
                   required
-                  value={productData.Quantity}
+                  value={productData.quantity}
                   onChange={handleChange}
                 />
               </div>
@@ -217,11 +223,11 @@ export default function UpdateProductForm() {
                 </label>
                 <textarea
                   id="description"
-                  name="Description"
+                  name="description"
                   rows="8"
                   className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Your description here"
-                  value={productData.Description}
+                  value={productData.description}
                   onChange={handleChange}
                 ></textarea>
               </div>

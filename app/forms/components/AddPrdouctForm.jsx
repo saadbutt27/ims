@@ -1,39 +1,4 @@
-import React, { useState } from "react";
-
-const getCategories = async () => {
-  try {
-    const res = await fetch("http://localhost:3000/api/Category", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cache: "no-store",
-    });
-
-    if (!res.ok) throw new Error("Failed to fetch data");
-    const category = await res.json();
-    return category;
-  } catch (error) {
-    console.log("error: ", error);
-  }
-};
-const getSuppliers = async () => {
-  try {
-    const res = await fetch("http://localhost:3000/api/Supplier", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cache: "no-store",
-    });
-
-    if (!res.ok) throw new Error("Failed to fetch data");
-    const supplier = await res.json();
-    return supplier;
-  } catch (error) {
-    console.log("error: ", error);
-  }
-};
+import React, { useState, useEffect } from "react";
 
 export default function AddPrdouctForm() {
   const [productData, setProductData] = useState({
@@ -44,6 +9,22 @@ export default function AddPrdouctForm() {
     quantity: "",
     description: "",
   });
+
+  const [categories, setCategories] = useState();
+  useEffect(() => {
+    const res = fetch("http://localhost:3000/api/Category")
+      .then((data) => data.json())
+      .then((data) => setCategories(data));
+  }, []);
+
+  const [suppliers, setSuppliers] = useState();
+  useEffect(() => {
+    const res = fetch("http://localhost:3000/api/Supplier")
+      .then((data) => data.json())
+      .then((data) => setSuppliers(data));
+  }, []);
+
+  console.log(categories, suppliers);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,8 +52,9 @@ export default function AddPrdouctForm() {
           SupplierID: productData.supplierId,
         }),
       });
-      console.log(res.ok);
+      console.log("response ", res.ok);
       if (res.ok) alert("Insertion succeed!");
+      e.reset();
     } catch (error) {
       console.log("Error");
     }
@@ -119,11 +101,12 @@ export default function AddPrdouctForm() {
                 onChange={handleChange}
               >
                 <option defaultValue={"0"}>Select category</option>
-                {/* {categories.data.map((category, index) => (
-                  <option key={index} value={category.CategoryID}>
-                    {category.CategoryName}
-                  </option>
-                ))} */}
+                {categories &&
+                  categories.data.map((category, index) => (
+                    <option key={index} value={category.CategoryID}>
+                      {category.CategoryName}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="w-full">
@@ -159,11 +142,12 @@ export default function AddPrdouctForm() {
                 onChange={handleChange}
               >
                 <option defaultValue={"0"}>Select Id</option>
-                {/* {suppliers.data.map((supplier, index) => (
-                  <option key={index} value={supplier.SupplierID}>
-                    {supplier.SupplierName}
-                  </option>
-                ))} */}
+                {suppliers &&
+                  suppliers.data.map((supplier, index) => (
+                    <option key={index} value={supplier.SupplierID}>
+                      {supplier.SupplierName}
+                    </option>
+                  ))}
               </select>
             </div>
             <div>

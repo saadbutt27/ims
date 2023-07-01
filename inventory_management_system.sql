@@ -120,6 +120,7 @@ select * from suppliers;
 select * from products;
 select * from customers;
 select * from orders;
+
 select * from customers where customername = 'john doe';
 select p.productid, p.productname, p.description, p.price, p.quantity, c.categoryid, c.categoryname, s.supplierid, s.suppliername  from products p  
 join categories c on c.categoryid = p.categoryid

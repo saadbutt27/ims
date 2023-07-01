@@ -6,7 +6,6 @@ export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const { id } = { id: searchParams.get("productid") };
-
     let res;
     if (!id) {
       res = await query({
@@ -17,14 +16,14 @@ export async function GET(request) {
       return NextResponse.json({ data: res });
     } else {
       res = await query({
-        query: "select * from products where productid = ?",
+        query: "select p.productid, p.productname, p.description, p.price, p.quantity, c.categoryname, s.suppliername from products p join categories c on c.categoryid = p.categoryid join suppliers s on s.supplierid = p.supplierid where p.productid = ?;",
         values: [id],
       });
       return NextResponse.json(res[0]);
     }
   } catch (err) {
     console.log("asd " + err.message);
-    throw new Error("Failed to fetch datas");
+    throw new Error("Failed to fetch data");
   }
 }
 
@@ -86,7 +85,6 @@ export async function DELETE(request) {
     const { searchParams } = new URL(request.url);
     const { id } = { id: searchParams.get("productid") };
     if (!id) return NextResponse.json({ message: "Failed" });
-    console.log("first");
     const req = await query({
       query: "delete from products where productid = ?;",
       values: [id],
@@ -94,9 +92,10 @@ export async function DELETE(request) {
     console.log(req);
     return NextResponse.json(req);
   } catch (error) {
-    console.log("Error", error);
-    return NextResponse.json({
-      message: error.message,
-    });
+    console.log(error);
+    // return NextResponse.json({
+    //   message: error.message,
+    // });
+    throw new Error("Failed to delete!")
   }
 }

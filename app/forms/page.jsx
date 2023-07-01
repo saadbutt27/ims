@@ -1,19 +1,19 @@
 "use client";
 import React, { useState } from "react";
-import Link from "next/link";
 import AddPrdouctForm from "./components/AddPrdouctForm";
 import PlaceOrderForm from "./components/PlaceOrderForm";
 import UpdateProductForm from "./components/UpdateProductForm";
 
 export default function Forms() {
-  const [activeButton, setActiveButton] = useState("product");
+  const [activeButton, setActiveButton] = useState("");
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
+    console.log(activeButton);
   };
   return (
     <div>
       <div className="border-b-2 border-b-black flex flex-wrap justify-around">
-        <Link href={""} className="flex flex-grow sm:flex-grow-0">
+        <div className="flex flex-grow sm:flex-grow-0">
           <button
             className={`py-2 px-6 rounded-md shadow-lg m-4 text-center flex-grow ${
               activeButton === "product"
@@ -24,8 +24,8 @@ export default function Forms() {
           >
             Product Form
           </button>
-        </Link>
-        <Link href={""} className="flex flex-grow sm:flex-grow-0">
+        </div>
+        <div className="flex flex-grow sm:flex-grow-0">
           <button
             className={`py-2 px-6 rounded-md shadow-lg m-4 text-center flex-grow ${
               activeButton === "updateProduct"
@@ -36,8 +36,8 @@ export default function Forms() {
           >
             Update Product Form
           </button>
-        </Link>
-        <Link href={""} className="flex flex-grow sm:flex-grow-0">
+        </div>
+        <div className="flex flex-grow sm:flex-grow-0">
           <button
             className={`py-2 px-6 rounded-md shadow-lg m-4 text-center flex-grow ${
               activeButton === "order" ? "bg-black text-white" : "bg-slate-200"
@@ -46,7 +46,7 @@ export default function Forms() {
           >
             Order Form
           </button>
-        </Link>
+        </div>
       </div>
 
       <div className="my-4 px-6 pt-2 pb-8 bg-white border-2 shadow-md h-auto">
@@ -54,8 +54,12 @@ export default function Forms() {
           <AddPrdouctForm />
         ) : activeButton === "updateProduct" ? (
           <UpdateProductForm />
-        ) : (
+        ) : activeButton === "order" ? (
           <PlaceOrderForm />
+        ) : (
+          <div className="flex items-center justify-center">
+            <h2 className="text-4xl font-semibold">Choose one</h2>
+          </div>
         )}
       </div>
     </div>
