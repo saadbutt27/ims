@@ -8,7 +8,6 @@ export default function Forms() {
   const [activeButton, setActiveButton] = useState("");
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
-    console.log(activeButton);
   };
   return (
     <div>

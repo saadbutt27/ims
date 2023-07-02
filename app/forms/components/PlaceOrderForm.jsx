@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+"use client";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function PlaceOrderForm() {
   const [searchCustomer, setSearchCustomer] = useState("");
@@ -9,6 +11,21 @@ export default function PlaceOrderForm() {
     address: "",
     contactInformation: "",
   });
+
+  const [customer, setCustomer] = useState();
+  useEffect(() => {
+    const res = fetch("http://localhost:3000/api/Customer")
+      .then((data) => data.json())
+      .then((data) => setCustomer(data));
+  }, [existingCustomer]);
+  const [product, setProduct] = useState();
+  useEffect(() => {
+    const res = fetch("http://localhost:3000/api/Product")
+      .then((data) => data.json())
+      .then((data) => setProduct(data));
+  }, []);
+
+  // console.log(customer, product);
 
   const [orderData, setOrderData] = useState({
     productID: "",
@@ -57,6 +74,7 @@ export default function PlaceOrderForm() {
     setOrderData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  const { refresh } = useRouter();
   const handleCustomerSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -79,6 +97,8 @@ export default function PlaceOrderForm() {
           address: "",
           contactInformation: "",
         });
+        setExistingCustomer(true);
+        refresh();
       }
     } catch (error) {
       console.log("Error");
@@ -225,7 +245,7 @@ export default function PlaceOrderForm() {
                   htmlFor="productID"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Product ID
+                  Product
                 </label>
                 <select
                   id="productID"
@@ -235,11 +255,9 @@ export default function PlaceOrderForm() {
                   onChange={handleOrderChange}
                 >
                   <option value="">Select product</option>
-                  <option value="1">Product 1</option>
-                  <option value="2">Product 2</option>
-                  <option value="3">Product 3</option>
-                  <option value="4">Product 4</option>
-                  <option value="5">Product 5</option>
+                  {product.data.map((p) => (
+                    <option value={p.productid}>{p.productname}</option>
+                  ))}
                 </select>
               </div>
               <div>
@@ -265,7 +283,7 @@ export default function PlaceOrderForm() {
                   htmlFor="customerID"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Customer ID
+                  Customer
                 </label>
                 <select
                   id="customerID"
@@ -275,11 +293,9 @@ export default function PlaceOrderForm() {
                   onChange={handleOrderChange}
                 >
                   <option value="">Select customer</option>
-                  <option value="1">Customer 1</option>
-                  <option value="2">Customer 2</option>
-                  <option value="3">Customer 3</option>
-                  <option value="4">Customer 4</option>
-                  <option value="5">Customer 5</option>
+                  {customer.data.map((c) => (
+                    <option value={c.CustomerID}>{c.CustomerName}</option>
+                  ))}
                 </select>
               </div>
             </div>

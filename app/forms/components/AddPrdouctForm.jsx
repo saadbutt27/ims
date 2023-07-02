@@ -15,6 +15,7 @@ export default function AddPrdouctForm() {
     const res = fetch("http://localhost:3000/api/Category")
       .then((data) => data.json())
       .then((data) => setCategories(data));
+    console.log("first");
   }, []);
 
   const [suppliers, setSuppliers] = useState();
@@ -23,8 +24,6 @@ export default function AddPrdouctForm() {
       .then((data) => data.json())
       .then((data) => setSuppliers(data));
   }, []);
-
-  console.log(categories, suppliers);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
