@@ -125,7 +125,7 @@ select * from customers where customername = 'john doe';
 select p.productid, p.productname, p.description, p.price, p.quantity, c.categoryid, c.categoryname, s.supplierid, s.suppliername  from products p  
 join categories c on c.categoryid = p.categoryid
 join suppliers s on s.supplierid = p.supplierid
-order by productid asc;
+where p.productid = 2;
 
 select * from orders;
 select o.orderid, p.productid, o.quantity, o.orderdate, c.customerid, c.customername from orders o
@@ -137,3 +137,10 @@ delete from products where productid = 3;
 select * from products where productid = 3;
 
 update products set productname = 'sofa amooth', description = 'Leather sofa' , price = 800.00, quantity = 5 where productid = 3; 
+
+select case
+        when A+B<C or A+C<B or B+C<A then "Not A Triangle"
+        when A = B = C then "Equilateral Triangle"
+        when A = B or B = C or C = A then "Isoceles Triangle"
+        else "Scalene Triangle"
+        end;
