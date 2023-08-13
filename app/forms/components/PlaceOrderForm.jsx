@@ -261,8 +261,10 @@ export default function PlaceOrderForm() {
                   onChange={handleOrderChange}
                 >
                   <option value="">Select product</option>
-                  {product.data.map((p) => (
-                    <option value={p.productid}>{p.productname}</option>
+                  {product.data.map((p, key) => (
+                    <option key={p.productid} value={p.productid}>
+                      {p.productname}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -299,8 +301,10 @@ export default function PlaceOrderForm() {
                   onChange={handleOrderChange}
                 >
                   <option value="">Select customer</option>
-                  {customer.data.map((c) => (
-                    <option value={c.CustomerID}>{c.CustomerName}</option>
+                  {customer.data.map((c, key) => (
+                    <option key={c.CustomerID} value={c.CustomerID}>
+                      {c.CustomerName}
+                    </option>
                   ))}
                 </select>
               </div>
