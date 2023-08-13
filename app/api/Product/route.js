@@ -16,7 +16,8 @@ export async function GET(request) {
       return NextResponse.json({ data: res });
     } else {
       res = await query({
-        query: "select p.productid, p.productname, p.description, p.price, p.quantity, c.categoryname, s.suppliername from products p join categories c on c.categoryid = p.categoryid join suppliers s on s.supplierid = p.supplierid where p.productid = ?;",
+        query:
+          "select p.productid, p.productname, p.description, p.price, p.quantity, c.categoryname, s.suppliername from products p join categories c on c.categoryid = p.categoryid join suppliers s on s.supplierid = p.supplierid where p.productid = ?;",
         values: [id],
       });
       return NextResponse.json(res[0]);
@@ -96,6 +97,6 @@ export async function DELETE(request) {
     // return NextResponse.json({
     //   message: error.message,
     // });
-    throw new Error("Failed to delete!")
+    throw new Error("Failed to delete!");
   }
 }

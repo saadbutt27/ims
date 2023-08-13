@@ -14,13 +14,13 @@ export default function PlaceOrderForm() {
 
   const [customer, setCustomer] = useState();
   useEffect(() => {
-    const res = fetch("http://localhost:3000/api/Customer")
+    const res = fetch(`${process.env.NEXT_PUBLIC_SITE_URL}api/Customer`)
       .then((data) => data.json())
       .then((data) => setCustomer(data));
   }, [existingCustomer]);
   const [product, setProduct] = useState();
   useEffect(() => {
-    const res = fetch("http://localhost:3000/api/Product")
+    const res = fetch(`${process.env.NEXT_PUBLIC_SITE_URL}api/Product`)
       .then((data) => data.json())
       .then((data) => setProduct(data));
   }, []);
@@ -36,13 +36,16 @@ export default function PlaceOrderForm() {
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:3000/api/Customer", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "no-store",
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SITE_URL}api/Customer`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          cache: "no-store",
+        }
+      );
 
       if (!res.ok) throw new Error("Failed to fetch data");
       const customer = await res.json();
@@ -78,17 +81,20 @@ export default function PlaceOrderForm() {
   const handleCustomerSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:3000/api/Customer", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          CustomerName: customerData.customerName,
-          Address: customerData.address,
-          ContactInformation: customerData.contactInformation,
-        }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SITE_URL}api/Customer`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            CustomerName: customerData.customerName,
+            Address: customerData.address,
+            ContactInformation: customerData.contactInformation,
+          }),
+        }
+      );
       console.log(res.ok);
       if (res.ok) {
         alert("Insertion succeed!");
@@ -108,7 +114,7 @@ export default function PlaceOrderForm() {
   const handleOrderSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:3000/api/Order", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}api/Order`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

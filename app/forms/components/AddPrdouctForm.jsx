@@ -12,7 +12,7 @@ export default function AddPrdouctForm() {
 
   const [categories, setCategories] = useState();
   useEffect(() => {
-    const res = fetch("http://localhost:3000/api/Category")
+    const res = fetch(`${process.env.NEXT_PUBLIC_SITE_URL}api/Category`)
       .then((data) => data.json())
       .then((data) => setCategories(data));
     console.log("first");
@@ -20,7 +20,7 @@ export default function AddPrdouctForm() {
 
   const [suppliers, setSuppliers] = useState();
   useEffect(() => {
-    const res = fetch("http://localhost:3000/api/Supplier")
+    const res = fetch(`${process.env.NEXT_PUBLIC_SITE_URL}api/Supplier`)
       .then((data) => data.json())
       .then((data) => setSuppliers(data));
   }, []);
@@ -37,7 +37,7 @@ export default function AddPrdouctForm() {
     e.preventDefault();
     console.log("Products: ", productData);
     try {
-      const res = await fetch("http://localhost:3000/api/Product", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}api/Product`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

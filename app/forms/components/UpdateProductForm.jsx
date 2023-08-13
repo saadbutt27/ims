@@ -18,7 +18,7 @@ export default function UpdateProductForm() {
     let id = searchProduct;
     try {
       const res = await fetch(
-        `http://localhost:3000/api/Product?productid=${id}`,
+        `${process.env.NEXT_PUBLIC_SITE_URL}api/Product?productid=${id}`,
         {
           method: "GET",
           headers: {
@@ -46,19 +46,22 @@ export default function UpdateProductForm() {
     let id = searchProduct;
     console.log("ID:", id);
     try {
-      const res = await fetch(`http://localhost:3000/api/Product`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ProductID: productData.productid,
-          ProductName: productData.productname,
-          Description: productData.description,
-          Price: productData.price,
-          Quantity: productData.quantity,
-        }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SITE_URL}api/Product`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ProductID: productData.productid,
+            ProductName: productData.productname,
+            Description: productData.description,
+            Price: productData.price,
+            Quantity: productData.quantity,
+          }),
+        }
+      );
       console.log(res);
       if (!res.ok) throw new Error("Failed to fetch data");
       else alert("Updated successfully!");

@@ -4,7 +4,7 @@ import React from "react";
 
 async function getData() {
   try {
-    const res = await fetch("http://localhost:3000/api/Product", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}api/Product`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export default async function page() {
   const handleDelete = async (id) => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/Product?productid=${id}`,
+        `${process.env.NEXT_PUBLIC_SITE_URL}api/Product?productid=${id}`,
         {
           method: "DELETE",
           headers: {

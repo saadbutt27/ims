@@ -3,7 +3,7 @@ import { formatDateTime } from "../../lib/dateFormatter";
 
 async function getData() {
   try {
-    const res = await fetch("http://localhost:3000/api/Order", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}api/Order`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
