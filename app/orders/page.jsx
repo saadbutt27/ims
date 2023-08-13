@@ -52,9 +52,9 @@ export default async function DisplayOrders() {
             </tr>
           </thead>
           <tbody>
-            {orders.data.map((order, index) => (
+            {orders && orders.data && orders.data.map((order) => (
               <tr
-                key={index}
+                key={order.orderid}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
               >
                 <td className="px-6 py-4">{order.orderid}</td>
