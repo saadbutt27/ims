@@ -1,4 +1,4 @@
- create database ims;
+create database ims;
 use ims;
 
 CREATE TABLE Categories (
@@ -37,7 +37,20 @@ CREATE TABLE Orders (
   Quantity INT,
   OrderDate DATE,
   CustomerID INT,
+  Amount INT,
   FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+  FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+CREATE TABLE Transactions (
+  TransactionID INT PRIMARY KEY AUTO_INCREMENT,
+  ProductID INT,
+  OrderID INT,
+  CustomerID INT,
+  PaymentStatus BOOLEAN, 
+  TransactionDate DATE,
+  FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+  FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
   FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
 );
 
@@ -109,6 +122,25 @@ VALUES
   (3, 1, '2023-05-13', 2),
   (4, 4, '2023-05-13', 3);
   
+INSERT INTO Transactions (ProductID, TransactionDate, CustomerID, OrderID, PaymentStatus)
+VALUES
+  (1, '2023-05-01', 1, 1, 1),
+  (2, '2023-05-02', 2, 2, 0),
+  (3, '2023-05-03', 3, 3, 0);
+
+DELIMITER $$
+CREATE TRIGGER after_order_insert
+AFTER INSERT ON orders
+FOR EACH ROW
+BEGIN
+INSERT INTO Transactions 
+(ProductID, TransactionDate, CustomerID, OrderID, PaymentStatus)
+VALUES
+  (NEW.ProductID, curdate(), NEW.CustomerID, NEW.OrderID, 0);
+END$$
+DELIMITER ;
+dROP TRIGGER ims.after_order_insert;
+  
 INSERT INTO Orders (ProductID, Quantity, OrderDate, CustomerID)
 VALUES
   (1, 2, curdate(), 1);
@@ -120,6 +152,7 @@ select * from suppliers;
 select * from products;
 select * from customers;
 select * from orders;
+select * from transactions;
 
 select * from customers where customername = 'john doe';
 select p.productid, p.productname, p.description, p.price, p.quantity, c.categoryid, c.categoryname, s.supplierid, s.suppliername  from products p  
@@ -136,11 +169,11 @@ order by orderid asc;
 delete from products where productid = 3;
 select * from products where productid = 3;
 
-update products set productname = 'sofa amooth', description = 'Leather sofa' , price = 800.00, quantity = 5 where productid = 3; 
+select t.transactionid, p.productid, o.orderid, t.paymentstatus, t.transactiondate, c.customerid, c.customername 
+from transactions t 
+join products p on p.productid = t.productid 
+join customers c on c.customerid = t.customerid 
+join orders o on o.orderid = t.orderid
+order by transactionid asc;
 
-select case
-        when A+B<C or A+C<B or B+C<A then "Not A Triangle"
-        when A = B = C then "Equilateral Triangle"
-        when A = B or B = C or C = A then "Isoceles Triangle"
-        else "Scalene Triangle"
-        end;
+update products set productname = 'sofa amooth', description = 'Leather sofa' , price = 800.00, quantity = 5 where productid = 3; 

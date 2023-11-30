@@ -18,11 +18,11 @@ export default function PlaceOrderForm() {
       .then((data) => data.json())
       .then((data) => setCustomer(data));
   }, [existingCustomer]);
-  const [product, setProduct] = useState();
+  const [products, setProducts] = useState();
   useEffect(() => {
     const res = fetch(`${process.env.NEXT_PUBLIC_SITE_URL}api/Product`)
       .then((data) => data.json())
-      .then((data) => setProduct(data));
+      .then((data) => setProducts(data));
   }, []);
 
   // console.log(customer, product);
@@ -31,6 +31,7 @@ export default function PlaceOrderForm() {
     productID: "",
     quantity: "",
     customerID: "",
+    amount: 0
   });
 
   const handleSearch = async (e) => {
@@ -113,6 +114,8 @@ export default function PlaceOrderForm() {
 
   const handleOrderSubmit = async (e) => {
     e.preventDefault();
+    const product = (products && products.data[0]) ? products.data.find(prod => Number(prod.productid) === Number(orderData.productID)) : "no product"
+    const price = product.price
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}api/Order`, {
         method: "POST",
@@ -123,6 +126,7 @@ export default function PlaceOrderForm() {
           ProductID: orderData.productID,
           Quantity: orderData.quantity,
           CustomerID: orderData.customerID,
+          Amount: price
         }),
       });
       console.log(res.ok);
@@ -261,11 +265,13 @@ export default function PlaceOrderForm() {
                   onChange={handleOrderChange}
                 >
                   <option value="">Select product</option>
-                  {product.data.map((p, key) => (
-                    <option key={p.productid} value={p.productid}>
-                      {p.productname}
-                    </option>
-                  ))}
+                  {products &&
+                    products.data &&
+                    products.data.map((product) => (
+                      <option key={product.productid} value={product.productid}>
+                        {product.productname}
+                      </option>
+                    ))}
                 </select>
               </div>
               <div>
@@ -301,11 +307,13 @@ export default function PlaceOrderForm() {
                   onChange={handleOrderChange}
                 >
                   <option value="">Select customer</option>
-                  {customer.data.map((c, key) => (
-                    <option key={c.CustomerID} value={c.CustomerID}>
-                      {c.CustomerName}
-                    </option>
-                  ))}
+                  {customer &&
+                    customer.data &&
+                    customer.data.map((c, key) => (
+                      <option key={c.CustomerID} value={c.CustomerID}>
+                        {c.CustomerName}
+                      </option>
+                    ))}
                 </select>
               </div>
             </div>

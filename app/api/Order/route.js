@@ -5,28 +5,30 @@ export async function GET() {
   try {
     const res = await query({
       query:
-        "select o.orderid, p.productid, o.quantity, o.orderdate, c.customerid, c.customername from orders o join products p on p.productid = o.productid join customers c on c.customerid = o.customerid order by orderid asc;",
+        "select o.orderid, p.productid, o.quantity, o.orderdate, c.customerid, c.customername, o.amount from orders o join products p on p.productid = o.productid join customers c on c.customerid = o.customerid order by orderid asc;",
       values: [],
     });
     return NextResponse.json({ data: res });
   } catch (err) {
-    console.log("asd" + err.message);
-    throw new Error("Failed to fetch datas");
+    return NextResponse.json({ message: "Failed to fetch orders data" });
   }
 }
 
 export async function POST(request) {
   try {
-    const { ProductID, Quantity, CustomerID } = await request.json();
-    if ((!ProductID, !Quantity, !CustomerID))
+    const { ProductID, Quantity, CustomerID, Amount } = await request.json();
+    const totalAmount = Amount * Quantity
+    if ((!ProductID, !Quantity, !CustomerID, !totalAmount))
       return NextResponse.json({ message: "Failed" });
-    const req = await query({
+    const res = await query({
       query:
-        "INSERT INTO Orders (ProductID, Quantity, OrderDate, CustomerID) VALUES (?, ?, curdate(), ?);",
-      values: [ProductID, Quantity, CustomerID],
+        "INSERT INTO Orders (ProductID, Quantity, OrderDate, CustomerID, Amount) VALUES (?, ?, curdate(), ?, ?);",
+      values: [ProductID, Quantity, CustomerID, totalAmount],
     });
-    return NextResponse.json(req);
+    console.log("Hello", res)
+    return NextResponse.json(res);
   } catch (error) {
+    console.log("Hello", error)
     return NextResponse.json({
       message: error.message,
     });

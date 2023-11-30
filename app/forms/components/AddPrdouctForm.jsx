@@ -12,17 +12,32 @@ export default function AddPrdouctForm() {
 
   const [categories, setCategories] = useState();
   useEffect(() => {
-    const res = fetch(`${process.env.NEXT_PUBLIC_SITE_URL}api/Category`)
+    const res = fetch(`${process.env.NEXT_PUBLIC_SITE_URL}api/Category`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((data) => data.json())
-      .then((data) => setCategories(data));
-    console.log("first");
+      .then((data) => setCategories(data))
+      .catch((error) => {
+        console.log("Failed to get data", error);
+      });
   }, []);
 
   const [suppliers, setSuppliers] = useState();
   useEffect(() => {
-    const res = fetch(`${process.env.NEXT_PUBLIC_SITE_URL}api/Supplier`)
+    const res = fetch(`${process.env.NEXT_PUBLIC_SITE_URL}api/Supplier`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((data) => data.json())
-      .then((data) => setSuppliers(data));
+      .then((data) => setSuppliers(data))
+      .catch((error) => {
+        console.log("Failed to get data:", error);
+      });
   }, []);
 
   const handleChange = (e) => {
@@ -37,20 +52,23 @@ export default function AddPrdouctForm() {
     e.preventDefault();
     console.log("Products: ", productData);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}api/Product`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ProductName: productData.name,
-          Description: productData.description,
-          Price: productData.price,
-          Quantity: productData.quantity,
-          CategoryID: productData.category,
-          SupplierID: productData.supplierId,
-        }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SITE_URL}api/Product`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ProductName: productData.name,
+            Description: productData.description,
+            Price: productData.price,
+            Quantity: productData.quantity,
+            CategoryID: productData.category,
+            SupplierID: productData.supplierId,
+          }),
+        }
+      );
       console.log("response ", res.ok);
       if (res.ok) alert("Insertion succeed!");
       e.reset();
@@ -101,6 +119,7 @@ export default function AddPrdouctForm() {
               >
                 <option defaultValue={"0"}>Select category</option>
                 {categories &&
+                  categories.data &&
                   categories.data.map((category, index) => (
                     <option key={index} value={category.CategoryID}>
                       {category.CategoryName}
@@ -142,6 +161,7 @@ export default function AddPrdouctForm() {
               >
                 <option defaultValue={"0"}>Select Id</option>
                 {suppliers &&
+                  suppliers.data &&
                   suppliers.data.map((supplier, index) => (
                     <option key={index} value={supplier.SupplierID}>
                       {supplier.SupplierName}

@@ -2,7 +2,8 @@ export const formatDateTime = (dateTime) => {
     let dat = new Date(dateTime).toString();
     let dateTimeParts = dat.split(/[ ]/);
 
-    return `${dateTimeParts[1]} ${dateTimeParts[2]} ${dateTimeParts[3]} ${tConvert(dateTimeParts[4])}`
+    return `${dateTimeParts[1]} ${dateTimeParts[2]} ${dateTimeParts[3]}`
+    // return `${dateTimeParts[1]} ${dateTimeParts[2]} ${dateTimeParts[3]} ${tConvert(dateTimeParts[4])}`
 
 }
 

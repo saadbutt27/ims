@@ -62,7 +62,7 @@ export default async function DisplayOrders() {
                 <td className="px-6 py-4">{order.customerid}</td>
                 <td className="px-6 py-4">{order.productid}</td>
                 <td className="px-6 py-4">{order.quantity}</td>
-                <td className="px-6 py-4">5000</td>
+                <td className="px-6 py-4">{!order.amount ? 500 : order.amount}</td>
               </tr>
             ))}
           </tbody>

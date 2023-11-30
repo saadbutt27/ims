@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "../../../lib/db";
-import { useSearchParams } from "next/navigation";
 
-export async function GET(request) {
+export async function GET(request) { // GET request for any select statement
   try {
     const { searchParams } = new URL(request.url);
     const { id } = { id: searchParams.get("productid") };
@@ -20,15 +19,15 @@ export async function GET(request) {
           "select p.productid, p.productname, p.description, p.price, p.quantity, c.categoryname, s.suppliername from products p join categories c on c.categoryid = p.categoryid join suppliers s on s.supplierid = p.supplierid where p.productid = ?;",
         values: [id],
       });
+      if (!typeof(res[0])) throw new Error()
       return NextResponse.json(res[0]);
     }
   } catch (err) {
-    console.log("asd " + err.message);
-    throw new Error("Failed to fetch data");
+    return NextResponse.json({ message: "Failed to fetch products data" });
   }
 }
 
-export async function POST(request) {
+export async function POST(request) { // POST request for Insert statement
   try {
     const {
       ProductName,
@@ -94,9 +93,8 @@ export async function DELETE(request) {
     return NextResponse.json(req);
   } catch (error) {
     console.log(error);
-    // return NextResponse.json({
-    //   message: error.message,
-    // });
-    throw new Error("Failed to delete!");
+    return NextResponse.json({
+      message: error.message,
+    });
   }
 }

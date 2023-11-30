@@ -9,8 +9,8 @@ export async function GET() {
     });
     return NextResponse.json({ data: res });
   } catch (err) {
-    console.log("asd" + err.message);
-    throw new Error("Failed to fetch datas");
+    return NextResponse.json({ message: "Failed to fetch customers data" });
+
   }
 }
 
