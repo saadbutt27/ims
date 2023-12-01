@@ -1,11 +1,15 @@
+"use client"
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
+  const pathname = usePathname();
   return (
     <nav className="sticky top-0 z-50 bg-white border-gray-200 dark:bg-gray-900 shadow-lg">
       <div className="max-w-screen-2xl flex flex-wrap items-center justify-between mx-7 p-4">
-        <Link href="/products" className="flex items-center">
+        <Link href="/products" 
+          className="flex items-center">
           <span className="self-center text-4xl font-semibold whitespace-nowrap dark:text-white">
             Our Inventory
           </span>
@@ -37,7 +41,10 @@ export default function Navbar() {
             <li>
               <Link
                 href={"/"}
-                className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                className={`block py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent
+                  ${pathname === "/"
+                  ? "text-blue-600"
+                  : "text-gray-900"}`}
               >
                 Home
               </Link>
@@ -45,7 +52,10 @@ export default function Navbar() {
             <li>
               <Link
                 href={"/products"}
-                className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                className={`block py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent
+                  ${pathname === "/products"
+                    ? "text-blue-600"
+                    : "text-gray-900"}`}
               >
                 Products
               </Link>
@@ -53,7 +63,10 @@ export default function Navbar() {
             <li>
               <Link
                 href={"/orders"}
-                className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                className={`block py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent
+                  ${pathname === "/orders"
+                    ? "text-blue-600"
+                    : "text-gray-900"}`}
               >
                 Orders
               </Link>
@@ -61,7 +74,10 @@ export default function Navbar() {
             <li>
               <Link
                 href={"/transactions"}
-                className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                className={`block py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent
+                  ${pathname === "/transactions"
+                    ? "text-blue-600"
+                    : "text-gray-900"}`}
               >
                 Transactions
               </Link>
@@ -69,7 +85,10 @@ export default function Navbar() {
             <li>
               <Link
                 href="/forms"
-                className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                className={`block py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent
+                  ${pathname === "/transactions"
+                    ? "text-blue-600"
+                    : "text-gray-900"}`}
               >
                 Forms
               </Link>
