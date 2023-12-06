@@ -75,7 +75,7 @@ export default function PlaceOrderForm() {
 
   const handleOrderChange = (e) => {
     const { name, value } = e.target;
-    if (name === "price" && value <= 0) {
+    if (name === "quantity" && value <= 0) {
       return
     }
     setOrderData((prevData) => ({ ...prevData, [name]: value }));

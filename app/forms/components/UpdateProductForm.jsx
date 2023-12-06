@@ -74,7 +74,7 @@ export default function UpdateProductForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if ((name === "price" && value <= 0) || (name === "quantity" && value <= 0)) {
+    if ((name === "price" && value < 0) || (name === "quantity" && value < 0)) {
       return
     }
     setProductData((prevData) => ({
