@@ -132,7 +132,7 @@ export default function PlaceOrderForm() {
           Amount: price
         }),
       });
-      console.log(res.ok);
+      // console.log(res.ok);
       if (res.ok) {
         alert("Insertion succeed!");
         setOrderData({
@@ -140,9 +140,11 @@ export default function PlaceOrderForm() {
           quantity: "",
           customerID: "",
         });
+      } else {
+        throw new Error("Quantity not available!")
       }
     } catch (error) {
-      // alert("Insertion failed!");
+      alert(error);
       console.log("Error: Insertion failed!", error);
     }
   };

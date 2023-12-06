@@ -22,14 +22,18 @@ export async function POST(request) {
       return NextResponse.json({ message: "Failed" });
     const res = await query({
       query:
-        "INSERT INTO Orders (ProductID, Quantity, OrderDate, CustomerID, Amount) VALUES (?, ?, curdate(), ?, ?);",
+        "CALL place_order(?, ?, ?, ?);",
       values: [ProductID, Quantity, CustomerID, totalAmount],
     });
-    console.log("Hello", res)
+    // console.log("Hello", res[0])
+    let mess = res[0]
+    if (mess[0].message === "Not enough quantity available") {
+      throw new Error("Quantity unavailable.")
+    }
     return NextResponse.json(res);
   } catch (error) {
-    console.log("Hello", error)
-    return NextResponse.json({
+    // console.log("Hello", error)
+    return NextResponse.error({
       message: error.message,
     });
   }

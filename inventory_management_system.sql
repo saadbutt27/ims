@@ -127,6 +127,8 @@ VALUES
   (1, '2023-05-01', 1, 1, 1),
   (2, '2023-05-02', 2, 2, 0),
   (3, '2023-05-03', 3, 3, 0);
+  
+show triggers;
 
 DELIMITER $$
 CREATE TRIGGER after_order_insert
@@ -139,7 +141,55 @@ VALUES
   (NEW.ProductID, curdate(), NEW.CustomerID, NEW.OrderID, 0);
 END$$
 DELIMITER ;
-dROP TRIGGER ims.after_order_insert;
+
+CALL place_order(3,1,4);
+select * from products where productid = 3;
+select * from products;
+select * from orders;
+
+DELIMITER //
+
+CREATE PROCEDURE place_order(IN p_product_id INT, IN p_quantity INT, IN customer_id INT, IN total_amount INT)
+BEGIN
+    DECLARE v_available_quantity INT;
+
+    -- Start a transaction
+    START TRANSACTION;
+
+    -- Get the available quantity of the product
+    SELECT quantity INTO v_available_quantity
+    FROM products
+    WHERE ProductID = p_product_id
+    FOR UPDATE;
+
+    -- Check if there is enough quantity available
+    IF v_available_quantity >= p_quantity THEN
+        -- Update the product quantity
+        UPDATE products
+        SET quantity = quantity - p_quantity
+        WHERE productid = p_product_id;
+
+        -- Insert the order
+        INSERT INTO orders (ProductID, Quantity, OrderDate, CustomerID, Amount)
+        VALUES (p_product_id, p_quantity, curdate(), customer_id, total_amount);
+
+        -- Commit the transaction
+        COMMIT;
+
+        SELECT 'Order placed successfully' AS message;
+
+    ELSE
+        -- Rollback the transaction
+        ROLLBACK;
+
+        SELECT 'Not enough quantity available' AS message;
+
+    END IF;
+
+END //
+
+DELIMITER ;
+
   
 INSERT INTO Orders (ProductID, Quantity, OrderDate, CustomerID)
 VALUES
@@ -167,6 +217,7 @@ join customers c on c.customerid = o.customerid
 order by orderid asc;
 
 delete from products where productid = 3;
+
 select * from products where productid = 3;
 
 select t.transactionid, p.productid, o.orderid, t.paymentstatus, t.transactiondate, c.customerid, c.customername 
