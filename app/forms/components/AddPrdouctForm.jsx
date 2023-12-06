@@ -42,6 +42,9 @@ export default function AddPrdouctForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if ((name === "price" && value <= 0) || (name === "quantity" && value <= 0)) {
+      return
+    }
     setProductData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -50,7 +53,7 @@ export default function AddPrdouctForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Products: ", productData);
+    // console.log("Products: ", productData);
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SITE_URL}api/Product`,
@@ -73,7 +76,8 @@ export default function AddPrdouctForm() {
       if (res.ok) alert("Insertion succeed!");
       e.reset();
     } catch (error) {
-      console.log("Error");
+      // alert("Insertion failed!");
+      console.log("Error,Insertion failed!", error);
     }
   };
 

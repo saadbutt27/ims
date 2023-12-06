@@ -16,8 +16,8 @@ CREATE TABLE Products (
   ProductID INT PRIMARY KEY AUTO_INCREMENT,
   ProductName VARCHAR(100),
   Description VARCHAR(255),
-  Price DECIMAL(10, 2),
-  Quantity INT,
+  Price DECIMAL(10, 2) CHECK (Price >= 0),
+  Quantity INT CHECK (Quantity >= 0),
   CategoryID INT,
   SupplierID INT,
   FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID),
@@ -37,7 +37,7 @@ CREATE TABLE Orders (
   Quantity INT,
   OrderDate DATE,
   CustomerID INT,
-  Amount INT,
+  Amount INT CHECK (Amount >= 0),
   FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
   FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
 );

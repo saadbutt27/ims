@@ -67,12 +67,16 @@ export default function UpdateProductForm() {
       else alert("Updated successfully!");
     } catch (error) {
       setSearchDone(false);
-      console.log("error: ", error);
+      // alert("Update failed!");
+      console.log("Error, Update failed!: ", error);
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if ((name === "price" && value <= 0) || (name === "quantity" && value <= 0)) {
+      return
+    }
     setProductData((prevData) => ({
       ...prevData,
       [name]: value,

@@ -22,7 +22,7 @@ async function getData() {
 
 export default async function page() {
   let products = await getData();
-  console.log(products);
+  // console.log(products);
 
   const handleDelete = async (id) => {
     try {
@@ -35,11 +35,11 @@ export default async function page() {
           },
         }
       );
+      // console.log(res.ok, res.status)
       if (!res.ok) throw new Error("Failed to fetch data");
-
       alert("Deleted succesfully!");
     } catch (error) {
-      console.log("Error i am here");
+      // console.log("Error i am here");
       alert("This product can't be deleted!");
     }
   };

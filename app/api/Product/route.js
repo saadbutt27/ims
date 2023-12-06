@@ -89,11 +89,11 @@ export async function DELETE(request) {
       query: "delete from products where productid = ?;",
       values: [id],
     });
-    console.log(req);
+    // console.log(req);
     return NextResponse.json(req);
   } catch (error) {
     console.log(error);
-    return NextResponse.json({
+    return NextResponse.error({
       message: error.message,
     });
   }

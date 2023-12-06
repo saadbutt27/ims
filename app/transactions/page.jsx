@@ -21,7 +21,7 @@ async function getData() {
 
 export default async function DisplayTransactions() {
   let transactions = await getData();
-  console.log(transactions);
+  // console.log(transactions);
   return (
     <>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
